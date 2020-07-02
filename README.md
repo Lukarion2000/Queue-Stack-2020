@@ -8,7 +8,7 @@ The source of the pseudocode that is the base of the implementation is
 ## Building the Code
 ```bash
 #1.
-    #Navigate to the Repository
+    #Navigate to the repository
 #2. 
     cd Code
 #3.

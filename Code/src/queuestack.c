@@ -1,0 +1,50 @@
+#include "queuestack.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+//########_Stacks_########
+
+int_Stack init_int_Stack()
+{
+	int_Stack Stack_new;
+	Stack_new.top = -1;
+	return Stack_new;
+}
+
+void push_int_Stack(int_Stack *iStack, int value)
+{
+	if(iStack->top + 1 == int_Stack_count_max)
+	{
+		printf("STACKOVERFLOOOOOOOOW!\n");
+	}
+	else
+	{
+		iStack->top++;
+		printf("%d\n", iStack->top);
+		iStack->items[iStack->top] = value;
+	}
+}
+
+void show_int_Stack(int_Stack iStack)
+{
+	printf("Showing all items.\n");
+	for (int i = 0; i < iStack.top + 1; ++i)
+		{
+			printf("%d\n", iStack.items[i]);
+		}
+}
+
+/*Stack_t init_stack(int count_max)
+{
+	Stack_t Stack_new =
+	{
+		int count = count_max;
+		int top = -1;
+		item items[count]; 
+	}
+	return Stack_new;
+}*/
+
+

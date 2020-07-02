@@ -5,7 +5,12 @@ This project is part of the [TUBAF](https://tu-freiberg.de/) Seminar ["Exploring
 
 ## Building the Code
 
-1. Navigate to the Repository
-2. ```bash cd Code ```
-3. ```bash make ```
+1. 
+    Navigate to the Repository
+2. ```bash 
+    cd Code
+    ```
+3. ```bash
+    make
+    ```
 

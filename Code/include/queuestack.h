@@ -19,7 +19,9 @@ typedef struct int_Stack
 int_Stack init_int_Stack();
 
 void push_int_Stack(int_Stack *iStack, int value);
+void pop_int_Stack(int_Stack *iStack);
 
+void peek_int_Stack(int_Stack iStack);
 void show_int_Stack(int_Stack iStack);
 
  // Hard Mode

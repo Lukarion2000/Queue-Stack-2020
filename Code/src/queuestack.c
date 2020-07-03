@@ -27,14 +27,36 @@ void push_int_Stack(int_Stack *iStack, int value)
 	}
 }
 
+int pop_int_Stack(int_Stack *iStack)
+{
+	if(iStack->top + 1 == int_Stack_count_max)
+	{
+		printf("STACKUNDERFLOOOOOOOOW!\n");
+	}
+	else
+	{
+		printf("Popping %d\n", iStack->top);
+		int value = iStack->items[iStack->top];
+		iStack->top--;
+	}
+}
+
+void peek_int_Stackt_Stack iStack)
+{
+	printf("Showing top item of stack.\n");
+	printf("%d\n", iStack.items[iStack.top]);
+}
+
 void show_int_Stack(int_Stack iStack)
 {
 	printf("Showing all items.\n");
 	for (int i = 0; i < iStack.top + 1; ++i)
 		{
-			printf("%d\n", iStack.items[i]);
+			printf("[%d]\n", iStack.items[i]);
 		}
 }
+
+
 
 /*Stack_t init_stack(int count_max)
 {

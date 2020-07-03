@@ -29,7 +29,7 @@ void push_int_Stack(int_Stack *iStack, int value)
 
 int pop_int_Stack(int_Stack *iStack)
 {
-	if(iStack->top + 1 == int_Stack_count_max)
+	if(iStack->top == -1)
 	{
 		printf("STACKUNDERFLOOOOOOOOW!\n");
 	}

@@ -41,7 +41,7 @@ int pop_int_Stack(int_Stack *iStack)
 	}
 }
 
-void peek_int_Stackt_Stack iStack)
+void peek_int_Stackt_Stack iStack) //needs to return a value(is shortened version of pop + push)
 {
 	printf("Showing top item of stack.\n");
 	printf("%d\n", iStack.items[iStack.top]);

@@ -3,10 +3,40 @@
 
 #include "stdlib.h"
 #include "string.h"
+#include <stdbool.h>
 
 //########_Stacks_########
 
- // simple integer Stack
+typedef enum stack_type{
+    STACK_CHAR,
+    STACK_INT,
+    STACK_FLOAT,
+    STACK_DOUBLE,
+    STACK_POINTER
+}stack_type_t;
+
+typedef struct stack * Stack;
+
+void stack_destroy(Stack stack);
+
+void stack_push(Stack stack, const stack_type_t type, ...);
+
+void stack_pop(Stack stack, void * p);
+
+stack_type_t stack_type_peek(Stack stack);
+
+bool stack_is_empty(Stack stack);
+
+
+//##_Multitype_Stacks_##
+Stack stack_create_multi(const int capacity);
+
+//##_Monotype_Stacks_##
+Stack stack_create_mono(const int capacity, stack_type_t stacktype);
+
+
+
+// simple integer Stack
 
 #define int_Stack_count_max 100
 
@@ -39,8 +69,5 @@ typedef struct Stack_t
 
  // Initializing an empty stack
 Stack_t init_stack(int count);
-
-
-
 
 #endif

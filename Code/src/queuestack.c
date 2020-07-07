@@ -2,18 +2,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <stdarg.h>
 #include <stdbool.h>
 
-//false: print only error messages
-//true: print all messages
+ //false: print only error messages
+ //true: print all messages
 #define Showmessages false
 
-//########_Stacks_########
+ //########_Stacks_########
 
-//  Struct to contain a Multitype Stack element
-struct multi_stack_element {
+ // Struct to contain a Multitype Stack element
+struct stack_element {
     stack_type_t type;
     union {
         char val_c;
@@ -24,17 +23,17 @@ struct multi_stack_element {
     } data;
 };
 
-//TODO: Monotype Stacks; probably entirely new struct but i'll see
+ //TODO: Monotype Stacks; probably entirely new struct but i'll see
 
-//TODO Descriptions
+ //TODO Descriptions
 struct stack {
     int top;
     int capacity;
-    struct multi_stack_element *elements;
+    struct stack_element *elements;
 };
 
-// Creates and returns a new Multitype Stack
-struct stack *stack_create_multi(const int capacity)
+ // Creates and returns a new Multitype Stack
+struct stack *stack_create(const int capacity)
 {
     struct stack *new_stack = malloc(sizeof *new_stack);
     if ( !new_stack )
@@ -59,13 +58,13 @@ struct stack *stack_create_multi(const int capacity)
 
 
 
-void stack_multi_destroy(struct stack *stack)
+void stack_destroy(struct stack *stack)
 {
     free(stack->elements);
     free(stack);
 }
 
-void stack_multi_push(struct stack *stack, const stack_type_t push_type, ...)
+void stack_push(struct stack *stack, const stack_type_t push_type, ...)
 {
     if ( stack->top == stack->capacity )
     {
@@ -113,7 +112,7 @@ void stack_multi_push(struct stack *stack, const stack_type_t push_type, ...)
     va_end(push_argument);
 }
 
-void stack_pop(struct stack *stack, void * pop_destination)
+void stack_pop(struct stack *stack, void *pop_destination)
 {
     if ( stack->top == 0 )
     {
@@ -140,7 +139,7 @@ void stack_pop(struct stack *stack, void * pop_destination)
 
         case STACK_DOUBLE:
             *((double *) pop_destination) = stack->elements[stack->top].data.val_d;
-            if(Showmessages){printf("Popped pointer %f from the Stack", stack->elements[stack->top].data.val_d);}
+            if(Showmessages){printf("Popped double %f from the Stack", stack->elements[stack->top].data.val_d);}
             break;
 
         case STACK_POINTER:
@@ -154,8 +153,6 @@ void stack_pop(struct stack *stack, void * pop_destination)
     }
 }
 
-//void stack_multi_peek(Stack stack, void * p);
-
 stack_type_t stack_type_peek(struct stack *stack)
 {
     if ( stack->top == 0 )
@@ -167,79 +164,62 @@ stack_type_t stack_type_peek(struct stack *stack)
     return stack->elements[stack->top - 1].type;
 }
 
+
+void stack_peek(struct stack *stack, void *peek_destination)
+{
+    if ( stack->top == 0 )
+    {
+        fprintf(stderr, "Stackunderflow!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    switch ( stack->elements[stack->top].type )
+    {
+        case STACK_CHAR:
+            *((char *) peek_destination) = stack->elements[stack->top].data.val_c;
+            if(Showmessages){printf("Peeked at char %c from the Stack", stack->elements[stack->top].data.val_c);}
+            break;
+
+        case STACK_INT:
+            *((int *) peek_destination) = stack->elements[stack->top].data.val_i;
+            if(Showmessages){printf("Peeked at int %d from the Stack", stack->elements[stack->top].data.val_i);}
+            break;
+
+        case STACK_FLOAT:
+            *((float *) peek_destination) = stack->elements[stack->top].data.val_f;
+            if(Showmessages){printf("Peeked at float %f from the Stack", stack->elements[stack->top].data.val_f);}
+            break;
+
+        case STACK_DOUBLE:
+            *((double *) peek_destination) = stack->elements[stack->top].data.val_d;
+            if(Showmessages){printf("Peeked at double %f from the Stack", stack->elements[stack->top].data.val_d);}
+            break;
+
+        case STACK_POINTER:
+            *((void **) peek_destination) = stack->elements[stack->top].data.val_p;
+            if(Showmessages){printf("Peeked at pointer %p from the Stack", stack->elements[stack->top].data.val_p);}
+            break;
+
+        default:
+            fprintf(stderr, "Unknown type in stack_pop()\n");
+            exit(EXIT_FAILURE);
+    }
+}
+
+
+ // Alternate peek implementation
+/*
+void stack_peek(struct stack *stack, void *peek_destination)
+{
+    stack_type_t push_type = stack_type_peek(stack);
+    stack_pop(stack, &peek_destination);
+    stack_push(stack, push_type, peek_destination);
+}
+*/
+
+
 bool stack_is_empty(struct stack *stack)
 {
     return stack->top == 0;
 }
-
-//##_Simple int_Stacks_## 
-
-int_Stack init_int_Stack()
-{
-	int_Stack Stack_new;
-	Stack_new.top = -1;
-	return Stack_new;
-}
-
-void push_int_Stack(int_Stack *iStack, int value)
-{
-	if(iStack->top + 1 == int_Stack_count_max)
-	{
-		//error Stackoverflow
-		printf("STACKOVERFLOOOOOOOOW!\n");
-		exit(0);
-	}
-	else
-	{
-		iStack->top++;
-		printf("Pushing %d\n", iStack->items[iStack->top]);
-		iStack->items[iStack->top] = value;
-	}
-}
-
-int pop_int_Stack(int_Stack *iStack)
-{
-	if(iStack->top == -1)
-	{
-		//error Stackunderflow
-		printf("STACKUNDERFLOOOOOOOOW!\n");
-		exit(0);
-	}
-	else
-	{
-		printf("Popping %d\n", iStack->items[iStack->top]);
-		int value = iStack->items[iStack->top];
-		iStack->top--;
-		return value;
-	}
-	
-}
-
-<<<<<<< HEAD
-void peek_int_Stack(int_Stack iStack)
-=======
-void peek_int_Stackt_Stack iStack) //needs to return a value(is shortened version of pop + push)
->>>>>>> c7f8caf7b2071f06f5dd436d9d7c315b37bc1236
-{
-	printf("Showing top item of stack.\n");
-	printf("%d\n", iStack.items[iStack.top]);
-}
-
-void show_int_Stack(int_Stack iStack)
-{
-	printf("Showing all items.\n");
-	for (int i = 0; i < iStack.top + 1; ++i)
-		{
-			printf("[%d]\n", iStack.items[i]);
-		}
-}
-
-
-
-
-
-
-
-
-
 

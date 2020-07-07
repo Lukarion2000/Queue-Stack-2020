@@ -1,5 +1,5 @@
-#ifndef QUEUESTACK_H
-#define QUEUESTACK_H
+#ifndef STACKS_H
+#define STACKS_H
 
 #include "stdlib.h"
 #include "string.h"
@@ -7,7 +7,8 @@
 
 //########_Stacks_########
 
-typedef enum {
+typedef enum
+{
     STACK_CHAR,
     STACK_INT,
     STACK_FLOAT,
@@ -31,6 +32,6 @@ stack_type_t stack_type_peek(Stackptr stack);
 
 bool stack_is_empty(Stackptr stack);
 
-
+//void stack_print (Stackptr stack)
 
 #endif

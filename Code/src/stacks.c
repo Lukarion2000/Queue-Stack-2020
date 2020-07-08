@@ -26,7 +26,8 @@ struct stack_element
 };
 
  //TODO Descriptions
-struct stack {
+struct stack
+{
     int top;
     int capacity;
     struct stack_element *elements;
@@ -36,7 +37,7 @@ struct stack {
 struct stack *stack_create(const int capacity)
 {
     struct stack *new_stack = malloc(sizeof *new_stack);
-    if ( !new_stack )
+    if (!new_stack)
     {
         fprintf(stderr, "Failed to allocate memory for new Stack.");
         exit(EXIT_FAILURE);
@@ -46,7 +47,7 @@ struct stack *stack_create(const int capacity)
     new_stack->top = 0;
 
     new_stack->elements = malloc(sizeof *new_stack->elements * capacity);
-    if ( !new_stack->elements )
+    if (!new_stack->elements)
     {
         free(new_stack);
         fprintf(stderr, "Failed to allocate memory for Stack elements.");
@@ -66,9 +67,9 @@ void stack_destroy(struct stack *stack)
 
 void stack_push(struct stack *stack, const stack_type_t push_type, ...)
 {
-    if ( stack->top == stack->capacity )
+    if (stack->top == stack->capacity)
     {
-        fprintf(stderr, "Stackoverflow!\n");
+        fprintf(stderr, "Stack overflow!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -114,17 +115,17 @@ void stack_push(struct stack *stack, const stack_type_t push_type, ...)
 
 void stack_pop(struct stack *stack, void *pop_destination)
 {
-    if ( stack->top == 0 )
+    if (stack_is_empty(stack))
     {
-        fprintf(stderr, "Stackunderflow!\n");
+        fprintf(stderr, "Stack underflow!\n");
         exit(EXIT_FAILURE);
     }
 
-    switch ( stack->elements[--stack->top].type )
+    switch (stack->elements[--stack->top].type)
     {
         case STACK_CHAR:
             *((char *) pop_destination) = stack->elements[stack->top].data.sval_c;
-            if(Showmessages){printf("Popped pointer %c from the Stack.\n", stack->elements[stack->top].data.sval_c);}
+            if(Showmessages){printf("Popped char %c from the Stack.\n", stack->elements[stack->top].data.sval_c);}
             break;
 
         case STACK_INT:
@@ -157,7 +158,7 @@ stack_type_t stack_type_peek(struct stack *stack)
 {
     if ( stack->top == 0 )
     {
-        fprintf(stderr, "Stackunderflow!\n");
+        fprintf(stderr, "Stack underflow!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -169,7 +170,7 @@ void stack_peek(struct stack *stack, void *peek_destination)
 {
     if ( stack->top == 0 )
     {
-        fprintf(stderr, "Stackunderflow!\n");
+        fprintf(stderr, "Stack underflow!\n");
         exit(EXIT_FAILURE);
     }
 

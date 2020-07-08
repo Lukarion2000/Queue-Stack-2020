@@ -33,7 +33,7 @@ queue_type_t queue_type_peek(Queueptr queue);
 
 bool queue_is_empty(Queueptr queue);
 
-//void queue_print(Queueptr)
+void queue_print(Queueptr);
 
 
 #endif

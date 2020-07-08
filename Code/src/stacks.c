@@ -8,7 +8,7 @@
 
  //false: print only error messages
  //true: print all messages
-#define Showmessages true
+#define Showmessages false
 
  //########_Stacks_########
 
@@ -76,6 +76,7 @@ void stack_push(struct stack *stack, const stack_type_t push_type, ...)
     va_list push_argument;
     va_start(push_argument, push_type);
 
+     // Typeswitch
     switch (push_type)
     {
         case STACK_CHAR:
@@ -104,7 +105,7 @@ void stack_push(struct stack *stack, const stack_type_t push_type, ...)
             break;
 
         default:
-            fprintf(stderr, "Unknown type in stack_push()\n");
+            fprintf(stderr, "Unknown type in stack_push().\n");
             exit(EXIT_FAILURE);
     }
     
@@ -121,6 +122,7 @@ void stack_pop(struct stack *stack, void *pop_destination)
         exit(EXIT_FAILURE);
     }
 
+     // Typeswitch
     switch (stack->elements[--stack->top].type)
     {
         case STACK_CHAR:
@@ -174,6 +176,7 @@ void stack_peek(struct stack *stack, void *peek_destination)
         exit(EXIT_FAILURE);
     }
 
+     // Typeswitch
     switch ( stack->elements[stack->top].type )
     {
         case STACK_CHAR:
@@ -202,13 +205,14 @@ void stack_peek(struct stack *stack, void *peek_destination)
             break;
 
         default:
-            fprintf(stderr, "Unknown type in stack_pop()\n");
+            fprintf(stderr, "Unknown type in stack_peek().\n");
             exit(EXIT_FAILURE);
     }
 }
 
 
-// Alternate peek implementation
+ // Alternate peek implementation: less code, but unnecessary operations;
+ //     Sidenote: Does not work for Queues
 /*
 void stack_peek(struct stack *stack, void *peek_destination)
 {
@@ -222,4 +226,40 @@ void stack_peek(struct stack *stack, void *peek_destination)
 bool stack_is_empty(struct stack *stack)
 {
     return stack->top == 0;
+}
+
+
+// Print the whole Stack
+void stack_print(struct stack *stack)
+{
+    for (int i = stack->top; i > -1; i--)
+    {
+             // Typeswitch
+        switch ( stack->elements[i].type )
+        {
+            case STACK_CHAR:
+                printf("%c\n", stack->elements[i].data.sval_c);
+                break;
+
+            case STACK_INT:
+                printf("%i\n", stack->elements[i].data.sval_i);
+                break;
+
+            case STACK_FLOAT:
+                printf("%f\n", stack->elements[i].data.sval_f);
+                break;
+
+            case STACK_DOUBLE:
+                printf("%f\n", stack->elements[i].data.sval_d);
+                break;
+
+            case STACK_POINTER:
+                printf("%p\n", stack->elements[i].data.sval_p);
+                break;
+
+            default:
+                fprintf(stderr, "Unknown type in stack.\n");
+                exit(EXIT_FAILURE);
+        }
+    }
 }

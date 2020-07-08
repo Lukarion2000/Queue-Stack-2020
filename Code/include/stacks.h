@@ -32,6 +32,6 @@ stack_type_t stack_type_peek(Stackptr stack);
 
 bool stack_is_empty(Stackptr stack);
 
-//void stack_print (Stackptr stack)
+void stack_print (Stackptr stack);
 
 #endif

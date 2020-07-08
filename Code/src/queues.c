@@ -8,12 +8,12 @@
 
  //false: print only error messages
  //true: print all messages
-#define Showmessages true
+#define Showmessages false
 
 
 //########_Queues_########
 
- // Struct to contain a Multitype queue element
+ // Struct to contain a multitype queue element
 struct queue_element
 {
     queue_type_t type;
@@ -26,13 +26,18 @@ struct queue_element
     } data;
 };
 
- //TODO Descriptions
+ // Struct to represent a Cicular Queue
 struct queue
 {
+     // Boolean flag needed to differentiate between queue overflow and an empty queue
     bool is_empty;
+     // "Back" of the queue
     int tail;
+     // "Front" of the queue
     int head;
+     // Maximum amount of objects in the queue
     int capacity;
+     // Array of queue_element
     struct queue_element *elements;
 };
 
@@ -72,16 +77,18 @@ void queue_destroy(struct queue *queue)
 
 void queue_enqueue(struct queue *queue, const queue_type_t enqueue_type, ...)
 {
+     // Check for Queue overflow 
     if (queue->tail == queue->head && !queue_is_empty(queue))
     {
-        printf("fail-tail: %d\n", queue->tail);
-        fprintf(stderr, "Queueoverflow!\n");
+        fprintf(stderr, "Queue overflow!\n");
         exit(EXIT_FAILURE);
     }
 
+     // Operations for <stdarg.h>
     va_list enqueue_argument;
     va_start(enqueue_argument, enqueue_type);
 
+     // Typeswitch
     switch (enqueue_type)
     {
         case QUEUE_CHAR:
@@ -116,8 +123,10 @@ void queue_enqueue(struct queue *queue, const queue_type_t enqueue_type, ...)
     
     va_end(enqueue_argument);
 
+     // Set element type
     queue->elements[queue->tail].type = enqueue_type;
 
+     // Set the is_empty flag to false
     if(queue_is_empty(queue))
     {
         queue->is_empty = false;
@@ -141,6 +150,7 @@ void queue_dequeue(struct queue *queue, void *dequeue_destination)
         exit(EXIT_FAILURE);
     }
 
+     // Typeswitch
     switch (queue->elements[queue->head].type)
     {
         case QUEUE_CHAR:
@@ -208,6 +218,7 @@ void queue_peek(struct queue *queue, void *peek_destination)
         exit(EXIT_FAILURE);
     }
 
+     // Typeswitch
     switch (queue->elements[queue->head].type)
     {
         case QUEUE_CHAR:
@@ -241,19 +252,14 @@ void queue_peek(struct queue *queue, void *peek_destination)
     }
 }
 
-
- // Alternate peek implementation
-/*
-void queue_peek(struct queue *queue, void *peek_destination)
-{
-    queue_type_t enqueue_type = queue_type_peek(queue);
-    queue_dequeue(queue, &peek_destination);
-    queue_enqueue(queue, enqueue_type, peek_destination);
-}
-*/
-
-
+//boolean Flag is a working Placeholder until a better solution is found
 bool queue_is_empty(struct queue *queue)
 {
     return queue->is_empty;
+}
+
+// Print the whole Queue
+void queue_print(struct queue *queue)
+{
+    
 }

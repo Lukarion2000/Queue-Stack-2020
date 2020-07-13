@@ -8,7 +8,7 @@
 
  //false: print only error messages
  //true: print all messages
-#define Showmessages false
+#define Showmessages true
 
 
 //########_Queues_########
@@ -252,7 +252,7 @@ void queue_peek(struct queue *queue, void *peek_destination)
     }
 }
 
-//boolean Flag is a working Placeholder until a better solution is found
+ // boolean Flag is a working Placeholder until a better solution is found
 bool queue_is_empty(struct queue *queue)
 {
     return queue->is_empty;

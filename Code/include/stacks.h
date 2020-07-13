@@ -28,10 +28,12 @@ void stack_pop(Stackptr stack, void *pop_destination);
 
 void stack_peek(Stackptr stack, void *peek_destination);
 
+void alternate_stack_peek(Stackptr stack, void *peek_destination);
+
 stack_type_t stack_type_peek(Stackptr stack);
 
 bool stack_is_empty(Stackptr stack);
 
-void stack_print (Stackptr stack);
+void stack_print(Stackptr stack);
 
 #endif

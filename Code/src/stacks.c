@@ -25,7 +25,7 @@ struct stack_element
     } data;
 };
 
- //TODO Descriptions
+ // Struct to represent a Stack
 struct stack
 {
     int top;
@@ -33,7 +33,7 @@ struct stack
     struct stack_element *elements;
 };
 
- // Creates and returns a new Multitype Stack
+ // Creates and returns a new Stack
 struct stack *stack_create(const int capacity)
 {
     struct stack *new_stack = malloc(sizeof *new_stack);
@@ -213,14 +213,14 @@ void stack_peek(struct stack *stack, void *peek_destination)
 
  // Alternate peek implementation: less code, but unnecessary operations;
  //     Sidenote: Does not work for Queues
-/*
-void stack_peek(struct stack *stack, void *peek_destination)
+
+void alternate_stack_peek(struct stack *stack, void *peek_destination)
 {
     stack_type_t push_type = stack_type_peek(stack);
     stack_pop(stack, &peek_destination);
     stack_push(stack, push_type, peek_destination);
 }
-*/
+
 
 
 bool stack_is_empty(struct stack *stack)
@@ -232,7 +232,7 @@ bool stack_is_empty(struct stack *stack)
 // Print the whole Stack
 void stack_print(struct stack *stack)
 {
-    for (int i = stack->top; i > -1; i--)
+    for (int i = stack->top - 1; i > -1; i--)
     {
              // Typeswitch
         switch ( stack->elements[i].type )

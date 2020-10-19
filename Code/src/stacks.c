@@ -28,9 +28,9 @@ struct stack_element
  // Struct to represent a Stack
 struct stack
 {
-    int top;
-    int capacity;
-    struct stack_element *elements;
+	int top;
+	int capacity; // Maximum amount of objects in the Stack
+	struct stack_element *elements; // Array of stack_element
 };
 
  // Creates and returns a new Stack
@@ -53,7 +53,7 @@ struct stack *stack_create(const int capacity)
         fprintf(stderr, "Failed to allocate memory for Stack elements.");
         exit(EXIT_FAILURE);
     }
-
+    if(Showmessages){printf("Created Stack with Capacity %d.\n", capacity);}
     return new_stack;
 }
 
@@ -167,6 +167,18 @@ stack_type_t stack_type_peek(struct stack *stack)
     return stack->elements[stack->top - 1].type;
 }
 
+ //
+int stack_capacity(Stackptr stack)
+{
+	return stack->capacity;
+}
+
+ //
+int stack_element_amount(Stackptr stack)
+{
+	return stack->top;
+}
+
 //stack_peek without removing the item from the Stack
 void stack_peek(struct stack *stack, void *peek_destination)
 {
@@ -177,7 +189,7 @@ void stack_peek(struct stack *stack, void *peek_destination)
     }
 
      // Typeswitch
-    switch ( stack->elements[stack->top].type )
+    switch ( stack->elements[--stack->top].type )
     {
         case STACK_CHAR:
             *((char *) peek_destination) = stack->elements[stack->top].data.sval_c;
@@ -208,6 +220,7 @@ void stack_peek(struct stack *stack, void *peek_destination)
             fprintf(stderr, "Unknown type in stack_peek().\n");
             exit(EXIT_FAILURE);
     }
+    stack->top++;
 }
 
 
@@ -232,29 +245,30 @@ bool stack_is_empty(struct stack *stack)
 // Print the whole Stack
 void stack_print(struct stack *stack)
 {
+    if (stack_is_empty(stack)) printf("Stack is empty.\n");
     for (int i = stack->top - 1; i > -1; i--)
     {
              // Typeswitch
         switch ( stack->elements[i].type )
         {
             case STACK_CHAR:
-                printf("%c\n", stack->elements[i].data.sval_c);
+                printf("[%c]", stack->elements[i].data.sval_c);
                 break;
 
             case STACK_INT:
-                printf("%i\n", stack->elements[i].data.sval_i);
+                printf("[%i]", stack->elements[i].data.sval_i);
                 break;
 
             case STACK_FLOAT:
-                printf("%f\n", stack->elements[i].data.sval_f);
+                printf("[%f]", stack->elements[i].data.sval_f);
                 break;
 
             case STACK_DOUBLE:
-                printf("%f\n", stack->elements[i].data.sval_d);
+                printf("[%f]", stack->elements[i].data.sval_d);
                 break;
 
             case STACK_POINTER:
-                printf("%p\n", stack->elements[i].data.sval_p);
+                printf("[%p]", stack->elements[i].data.sval_p);
                 break;
 
             default:

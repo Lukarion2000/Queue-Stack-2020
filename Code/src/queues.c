@@ -8,12 +8,12 @@
 
  //false: print only error messages
  //true: print all messages
-#define Showmessages true
+#define Showmessages false
 
 
 //########_Queues_########
 
- // Struct to contain a multitype queue element
+ // Struct to contain a Multitype Queue element
 struct queue_element
 {
     queue_type_t type;
@@ -29,16 +29,11 @@ struct queue_element
  // Struct to represent a Cicular Queue
 struct queue
 {
-     // Boolean flag needed to differentiate between queue overflow and an empty queue
-    bool is_empty;
-     // "Back" of the queue
-    int tail;
-     // "Front" of the queue
-    int head;
-     // Maximum amount of objects in the queue
-    int capacity;
-     // Array of queue_element
-    struct queue_element *elements;
+    bool is_empty; // Boolean flag needed to differentiate between queue overflow and an empty queue    
+    int tail; // "Back" of the queue
+    int head; // "Front" of the queue
+    int capacity; // Maximum amount of objects in the queue
+    struct queue_element *elements; // Array of queue_element
 };
 
  // Creates and returns a new Multitype queue
@@ -63,11 +58,9 @@ struct queue *queue_create(const int capacity)
         fprintf(stderr, "Failed to allocate memory for queue elements.");
         exit(EXIT_FAILURE);
     }
-
+    if(Showmessages){printf("Created Queue with Capacity %d.\n", capacity);}
     return new_queue;
 }
-
-
 
 void queue_destroy(struct queue *queue)
 {
@@ -80,7 +73,7 @@ void queue_enqueue(struct queue *queue, const queue_type_t enqueue_type, ...)
      // Check for Queue overflow 
     if (queue->tail == queue->head && !queue_is_empty(queue))
     {
-        fprintf(stderr, "Queue overflow!\n");
+        fprintf(stderr, "Queue overflow!\n"); // Overflow prevention
         exit(EXIT_FAILURE);
     }
 
@@ -209,6 +202,19 @@ queue_type_t queue_type_peek(struct queue *queue)
     return queue->elements[queue->head].type;
 }
 
+int queue_capacity(Queueptr queue)
+{
+    return queue->capacity;
+}
+
+int queue_element_amount(Queueptr queue)
+{
+    if (queue_is_empty(queue)) return 0;
+    else if (queue->head < queue->tail) return queue->tail - queue->head;
+    else if (queue->head > queue->tail) return queue->tail + queue->capacity - queue->head;
+    else return queue->capacity; 
+}
+
 
 void queue_peek(struct queue *queue, void *peek_destination)
 {
@@ -252,7 +258,6 @@ void queue_peek(struct queue *queue, void *peek_destination)
     }
 }
 
- // boolean Flag is a working Placeholder until a better solution is found
 bool queue_is_empty(struct queue *queue)
 {
     return queue->is_empty;
@@ -261,5 +266,104 @@ bool queue_is_empty(struct queue *queue)
 // Print the whole Queue
 void queue_print(struct queue *queue)
 {
-    
+    if (queue_is_empty(queue)) printf("Queue is empty.\n");
+    else if (queue->head < queue->tail)
+    {
+        for (int i = queue->head; i < queue->tail; i++)
+        {
+             // Typeswitch
+            switch ( queue->elements[i].type )
+            {
+                case QUEUE_CHAR:
+                    printf("[%c]", queue->elements[i].data.qval_c);
+                    break;
+
+                case QUEUE_INT:
+                    printf("[%i]", queue->elements[i].data.qval_i);
+                    break;
+
+                case QUEUE_FLOAT:
+                    printf("[%f]", queue->elements[i].data.qval_f);
+                    break;
+
+                case QUEUE_DOUBLE:
+                    printf("[%f]", queue->elements[i].data.qval_d);
+                    break;
+
+                case QUEUE_POINTER:
+                    printf("[%p]", queue->elements[i].data.qval_p);
+                    break;
+
+                default:
+                    fprintf(stderr, "Unknown type in queue.\n");
+                    exit(EXIT_FAILURE);
+            }
+        }
+        printf("\n");
+    }
+    // if the Queue goes around the array, the Queue has to be printed in Order
+    else if(queue->head >= queue->tail)
+    {
+        for (int i = queue->head; i < queue->capacity; i++)
+        {
+             // Typeswitch
+            switch ( queue->elements[i].type )
+            {
+                case QUEUE_CHAR:
+                    printf("[%c]", queue->elements[i].data.qval_c);
+                    break;
+
+                case QUEUE_INT:
+                    printf("[%i]", queue->elements[i].data.qval_i);
+                    break;
+
+                case QUEUE_FLOAT:
+                    printf("[%f]", queue->elements[i].data.qval_f);
+                    break;
+
+                case QUEUE_DOUBLE:
+                    printf("[%f]", queue->elements[i].data.qval_d);
+                    break;
+
+                case QUEUE_POINTER:
+                    printf("[%p]", queue->elements[i].data.qval_p);
+                    break;
+
+                default:
+                    fprintf(stderr, "Unknown type in queue.\n");
+                    exit(EXIT_FAILURE);
+            }
+        }
+        for (int i = 0; i < queue->tail; i++)
+        {
+             // Typeswitch
+            switch ( queue->elements[i].type )
+            {
+                case QUEUE_CHAR:
+                    printf("[%c]", queue->elements[i].data.qval_c);
+                    break;
+
+                case QUEUE_INT:
+                    printf("[%i]", queue->elements[i].data.qval_i);
+                    break;
+
+                case QUEUE_FLOAT:
+                    printf("[%f]", queue->elements[i].data.qval_f);
+                    break;
+
+                case QUEUE_DOUBLE:
+                    printf("[%f]", queue->elements[i].data.qval_d);
+                    break;
+
+                case QUEUE_POINTER:
+                    printf("[%p]", queue->elements[i].data.qval_p);
+                    break;
+
+                default:
+                    fprintf(stderr, "Unknown type in queue.\n");
+                    exit(EXIT_FAILURE);
+            }
+        }
+        printf("\n");
+    }
 }

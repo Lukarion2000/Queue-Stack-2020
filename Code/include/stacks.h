@@ -1,8 +1,8 @@
 #ifndef STACKS_H
 #define STACKS_H
 
-#include "stdlib.h"
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
 //########_Stacks_########
@@ -35,5 +35,9 @@ stack_type_t stack_type_peek(Stackptr stack);
 bool stack_is_empty(Stackptr stack);
 
 void stack_print(Stackptr stack);
+
+int stack_capacity(Stackptr stack);
+
+int stack_element_amount(Stackptr stack);
 
 #endif
